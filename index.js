@@ -4,14 +4,18 @@ const app = express();
 const port = 3000;
 const userRoute = require("./routes/userRoute");
 const diagnoseRoute = require("./routes/diagnoseRoute");
+const queueRoute = require("./routes/queueRoute");
+const historyRoute = require("./routes/historyRoute");
 const { connectDB } = require("./config/db");
-const errorHandler = require("./middlewares/errorHandler.js");
+const errorHandler = require("./middlewares/errorHandler");
 
 // app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/user", userRoute);
 app.use("/api/diagnose", diagnoseRoute);
+app.use("/api/queue", queueRoute);
+app.use("/api/history", historyRoute);
 app.use(errorHandler);
 
 app.use((error, req, res, next) => {

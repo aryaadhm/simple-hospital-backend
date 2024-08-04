@@ -2,9 +2,13 @@ const Mongoose = require("mongoose");
 
 const diagnose = new Mongoose.Schema({
   patient: {
-    // type: String,
     type: Mongoose.SchemaTypes.ObjectId,
     ref: "User",
+    required: true,
+  },
+  queue: {
+    type: Mongoose.SchemaTypes.ObjectId,
+    ref: "Queue",
     required: true,
   },
   description: {
@@ -14,10 +18,12 @@ const diagnose = new Mongoose.Schema({
     type: String,
   },
   doctor: {
-    // type: String,
     type: Mongoose.SchemaTypes.ObjectId,
     ref: "User",
     required: true,
+  },
+  date: {
+    type: String,
   },
 });
 

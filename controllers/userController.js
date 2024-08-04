@@ -1,5 +1,5 @@
 const User = require("../models/userModel");
-const { comparePassword } = require("../helpers/bcrypt");
+const { comparePassword, hashPassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 const validateEmail = require("../helpers/validateEmail");
 
@@ -88,7 +88,9 @@ const getPatients = async (req, res, next) => {
       { role: 1, email: 1, _id: 1, name: 1 }
     );
 
-    res.status(200).json(patients);
+    res
+      .status(200)
+      .json({ message: "Success", responseCode: "200", data: patients });
   } catch (error) {
     next(error);
   }
@@ -103,7 +105,27 @@ const getPatient = async (req, res, next) => {
         .status(404)
         .json({ message: "User not found", responseCode: "400" });
     }
-    res.status(200).json(user);
+    res
+      .status(200)
+      .json({ message: "Success", responseCode: "200", data: user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const changePassword = async (req, res, next) => {
+  try {
+    const { password } = req.body;
+    const newPass = hashPassword(password);
+    await User.updateOne(
+      {
+        _id: req.userLogin._id,
+      },
+      {
+        password: newPass,
+      }
+    );
+    res.status(200).json({ message: "Password updated", responseCode: "200" });
   } catch (error) {
     next(error);
   }
@@ -114,4 +136,5 @@ module.exports = {
   loginUser,
   getPatients,
   getPatient,
+  changePassword,
 };

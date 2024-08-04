@@ -13,6 +13,6 @@ route.post(
 );
 route.post("/login", userController.loginUser);
 route.get("/:user_id", userController.getPatient);
-// route.delete("/:user_id", studentController.deleteStudent);
+route.put("/change-password", Authentication, userController.changePassword);
 
 module.exports = route;
